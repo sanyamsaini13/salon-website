@@ -1,0 +1,616 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Booking Confirmed
+        {% if salon_info %}
+            | {{ salon_info.salon_name }}
+        {% endif %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'website/css/style.css' %}"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #050505;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .success-page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .success-card {
+            width: 100%;
+            max-width: 620px;
+            background: #0d0d0d;
+            border: 1px solid #2b2415;
+            padding: 45px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: #9b7a32;
+            color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 38px;
+            font-weight: bold;
+        }
+
+        .success-label {
+            color: #9b7a32;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .success-card h1 {
+            margin: 0 0 15px;
+            font-size: 34px;
+        }
+
+        .success-message {
+            color: #aaaaaa;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .reference-box {
+            margin-bottom: 25px;
+            padding: 17px;
+            background: #15120c;
+            border: 1px solid #3d321c;
+        }
+
+        .reference-title {
+            display: block;
+            color: #888888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .reference-number {
+            color: #d6ad52;
+            font-size: 13px;
+            word-break: break-all;
+        }
+
+        .booking-details {
+            background: #080808;
+            border: 1px solid #222222;
+            padding: 10px 25px;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 16px 0;
+            border-bottom: 1px solid #1d1d1d;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-title {
+            color: #888888;
+        }
+
+        .detail-value {
+            color: #ffffff;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .status {
+            color: #d6ad52;
+        }
+
+        /* =====================================
+           WHATSAPP CONFIRMATION
+        ===================================== */
+
+        .whatsapp-section {
+            margin-bottom: 28px;
+            padding: 22px;
+            background: #0b120d;
+            border: 1px solid #173d23;
+        }
+
+        .whatsapp-title {
+            margin: 0 0 8px;
+            color: #ffffff;
+            font-size: 18px;
+        }
+
+        .whatsapp-text {
+            margin: 0 0 18px;
+            color: #999999;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .whatsapp-button {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            background: #25D366;
+            color: #07150c;
+            border: none;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .whatsapp-button:hover {
+            background: #20bd5a;
+            transform: translateY(-1px);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .button {
+            display: inline-block;
+            text-decoration: none;
+            padding: 15px 24px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .home-button {
+            background: #9b7a32;
+            color: #000000;
+        }
+
+        .home-button:hover {
+            background: #c09a45;
+        }
+
+        .status-button {
+            background: transparent;
+            color: #d6ad52;
+            border: 1px solid #9b7a32;
+        }
+
+        .status-button:hover {
+            background: #9b7a32;
+            color: #000000;
+        }
+
+        .note {
+            margin-top: 25px;
+            color: #777777;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+
+            .success-card {
+                padding: 30px 20px;
+            }
+
+            .success-card h1 {
+                font-size: 27px;
+            }
+
+            .booking-details {
+                padding: 8px 18px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 7px;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main class="success-page">
+
+
+        <div class="success-card">
+
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+
+            <div class="success-label">
+                Appointment Request Received
+            </div>
+
+
+            <h1>
+                Thank You, {{ appointment.name }}!
+            </h1>
+
+
+            <p class="success-message">
+
+                Your appointment has been booked successfully.
+                Please save your booking reference so you can
+                check your appointment status later.
+
+            </p>
+
+
+            <!-- =====================================
+                 BOOKING REFERENCE
+            ====================================== -->
+
+            <div class="reference-box">
+
+                <span class="reference-title">
+                    Booking Reference
+                </span>
+
+                <strong class="reference-number">
+                    {{ appointment.booking_reference }}
+                </strong>
+
+            </div>
+
+
+            <!-- =====================================
+                 BOOKING DETAILS
+            ====================================== -->
+
+            <div class="booking-details">
+
+
+                <div class="detail-row">
+
+                    <span class="detail-title">
+                        Service
+                    </span>
+
+                    <span class="detail-value">
+                        {{ appointment.service.name }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-title">
+                        Duration
+                    </span>
+
+                    <span class="detail-value">
+                        {{ appointment.service.duration_minutes }}
+                        minutes
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-title">
+                        Barber / Stylist
+                    </span>
+
+                    <span class="detail-value">
+
+                        {% if appointment.staff %}
+
+                            {{ appointment.staff.name }}
+
+                        {% else %}
+
+                            Not Assigned
+
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-title">
+                        Date
+                    </span>
+
+                    <span class="detail-value">
+                        {{ appointment.appointment_date|date:"d M Y" }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-title">
+                        Time
+                    </span>
+
+                    <span class="detail-value">
+                        {{ appointment.appointment_time|time:"h:i A" }}
+                    </span>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span class="detail-title">
+                        Status
+                    </span>
+
+                    <span class="detail-value status">
+                        {{ appointment.status }}
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =====================================
+                 WHATSAPP CONFIRMATION
+            ====================================== -->
+
+            {% if salon_info and salon_info.whatsapp_number %}
+
+                <div class="whatsapp-section">
+
+                    <h2 class="whatsapp-title">
+                        Confirm on WhatsApp
+                    </h2>
+
+                    <p class="whatsapp-text">
+                        Send your booking details to the salon
+                        through WhatsApp.
+                    </p>
+
+                    <a
+                        href="#"
+                        id="whatsappConfirmation"
+                        class="whatsapp-button"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Confirm on WhatsApp
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =====================================
+                 BUTTONS
+            ====================================== -->
+
+            <div class="button-group">
+
+
+                <a
+                    href="{% url 'home' %}"
+                    class="button home-button"
+                >
+                    Back to Home
+                </a>
+
+
+                <a
+                    href="{% url 'check_booking' %}"
+                    class="button status-button"
+                >
+                    Check Appointment Status
+                </a>
+
+
+            </div>
+
+
+            <p class="note">
+
+                Please arrive a few minutes before your
+                scheduled appointment.
+
+            </p>
+
+
+        </div>
+
+
+    </main>
+
+
+    <!-- ==========================================
+         WHATSAPP MESSAGE SCRIPT
+    =========================================== -->
+
+    {% if salon_info and salon_info.whatsapp_number %}
+
+        <script>
+
+            document.addEventListener(
+                "DOMContentLoaded",
+                function () {
+
+                    const whatsappButton =
+                        document.getElementById(
+                            "whatsappConfirmation"
+                        );
+
+                    if (!whatsappButton) {
+                        return;
+                    }
+
+
+                    /*
+                     * Salon WhatsApp number.
+                     * Remove spaces, +, -, brackets, etc.
+                     */
+
+                    let salonNumber =
+                        "{{ salon_info.whatsapp_number|escapejs }}";
+
+                    salonNumber =
+                        salonNumber.replace(
+                            /\D/g,
+                            ""
+                        );
+
+
+                    /*
+                     * If an Indian 10-digit number is
+                     * stored in Admin, automatically
+                     * add country code 91.
+                     */
+
+                    if (
+                        salonNumber.length === 10
+                    ) {
+
+                        salonNumber =
+                            "91" + salonNumber;
+
+                    }
+
+
+                    const customerName =
+                        "{{ appointment.name|escapejs }}";
+
+                    const bookingReference =
+                        "{{ appointment.booking_reference|escapejs }}";
+
+                    const service =
+                        "{{ appointment.service.name|escapejs }}";
+
+                    const duration =
+                        "{{ appointment.service.duration_minutes|escapejs }}";
+
+                    const staff =
+                        "{% if appointment.staff %}{{ appointment.staff.name|escapejs }}{% else %}Not Assigned{% endif %}";
+
+                    const appointmentDate =
+                        "{{ appointment.appointment_date|date:'d M Y'|escapejs }}";
+
+                    const appointmentTime =
+                        "{{ appointment.appointment_time|time:'h:i A'|escapejs }}";
+
+
+                    const message =
+                        "Hello {% if salon_info %}{{ salon_info.salon_name|escapejs }}{% else %}Salon{% endif %},\n\n"
+                        + "I have booked an appointment.\n\n"
+                        + "Name: "
+                        + customerName
+                        + "\n"
+                        + "Booking Reference: "
+                        + bookingReference
+                        + "\n"
+                        + "Service: "
+                        + service
+                        + "\n"
+                        + "Duration: "
+                        + duration
+                        + " minutes\n"
+                        + "Barber / Stylist: "
+                        + staff
+                        + "\n"
+                        + "Date: "
+                        + appointmentDate
+                        + "\n"
+                        + "Time: "
+                        + appointmentTime
+                        + "\n\n"
+                        + "Please confirm my appointment. Thank you.";
+
+
+                    const whatsappUrl =
+                        "https://wa.me/"
+                        + salonNumber
+                        + "?text="
+                        + encodeURIComponent(
+                            message
+                        );
+
+
+                    whatsappButton.href =
+                        whatsappUrl;
+
+                }
+            );
+
+        </script>
+
+    {% endif %}
+
+
+</body>
+
+</html>

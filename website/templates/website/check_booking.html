@@ -1,0 +1,836 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Check Appointment
+        {% if salon_info %}
+            | {{ salon_info.salon_name }}
+        {% endif %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'website/css/style.css' %}"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #050505;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .status-page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        .status-container {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .small-heading {
+            color: #b9913b;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .page-heading h1 {
+            margin: 12px 0;
+            font-size: 38px;
+        }
+
+        .page-heading p {
+            color: #999999;
+            line-height: 1.7;
+        }
+
+
+        /* ===============================
+           MESSAGES
+        =============================== */
+
+        .messages {
+            margin-bottom: 25px;
+        }
+
+        .message {
+            padding: 16px;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .message.success {
+            background: #102016;
+            border: 1px solid #315c3c;
+            color: #a9e8b8;
+        }
+
+        .message.error {
+            background: #241010;
+            border: 1px solid #693333;
+            color: #ffb7b7;
+        }
+
+        .message.info {
+            background: #111b25;
+            border: 1px solid #344b61;
+            color: #b8d8f3;
+        }
+
+
+        /* ===============================
+           SEARCH CARD
+        =============================== */
+
+        .search-card {
+            background: #0d0d0d;
+            border: 1px solid #292315;
+            padding: 35px;
+            margin-bottom: 30px;
+        }
+
+        .search-card label {
+            display: block;
+            margin-bottom: 12px;
+            color: #dddddd;
+            font-weight: bold;
+        }
+
+        .reference-input {
+            width: 100%;
+            background: #080808;
+            color: #ffffff;
+            border: 1px solid #333333;
+            padding: 16px;
+            font-size: 15px;
+            outline: none;
+            margin-bottom: 18px;
+        }
+
+        .reference-input:focus {
+            border-color: #b9913b;
+        }
+
+        .check-button {
+            width: 100%;
+            border: none;
+            background: #b9913b;
+            color: #000000;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .check-button:hover {
+            background: #d2aa4f;
+        }
+
+
+        /* ===============================
+           ERROR
+        =============================== */
+
+        .error-box {
+            background: #241010;
+            border: 1px solid #693333;
+            color: #ffb7b7;
+            padding: 16px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+
+        /* ===============================
+           APPOINTMENT CARD
+        =============================== */
+
+        .appointment-card {
+            background: #0d0d0d;
+            border: 1px solid #292315;
+            padding: 35px;
+        }
+
+        .found-heading {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .found-heading h2 {
+            margin: 0 0 8px;
+        }
+
+        .found-heading p {
+            margin: 0;
+            color: #888888;
+        }
+
+
+        /* ===============================
+           STATUS BADGES
+        =============================== */
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            margin-top: 15px;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-pending {
+            border: 1px solid #b9913b;
+            color: #d6ad52;
+        }
+
+        .status-confirmed {
+            border: 1px solid #3e8153;
+            color: #70d78e;
+        }
+
+        .status-completed {
+            border: 1px solid #416b96;
+            color: #78b9f5;
+        }
+
+        .status-cancelled {
+            border: 1px solid #833b3b;
+            color: #f27b7b;
+        }
+
+
+        /* ===============================
+           BOOKING REFERENCE
+        =============================== */
+
+        .booking-reference {
+            background: #15120c;
+            border: 1px solid #3d321c;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .booking-reference span {
+            display: block;
+            color: #888888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 7px;
+        }
+
+        .booking-reference strong {
+            color: #d6ad52;
+            font-size: 13px;
+            word-break: break-all;
+        }
+
+
+        /* ===============================
+           DETAILS
+        =============================== */
+
+        .details {
+            border: 1px solid #222222;
+            background: #080808;
+            padding: 5px 22px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 16px 0;
+            border-bottom: 1px solid #202020;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-name {
+            color: #888888;
+        }
+
+        .detail-value {
+            color: #ffffff;
+            font-weight: bold;
+            text-align: right;
+        }
+
+
+        /* ===============================
+           CANCEL SECTION
+        =============================== */
+
+        .cancel-section {
+            margin-top: 25px;
+            padding: 22px;
+            border: 1px solid #422323;
+            background: #110909;
+            text-align: center;
+        }
+
+        .cancel-section h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #f0dede;
+        }
+
+        .cancel-section p {
+            color: #a98e8e;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .cancel-button {
+            border: 1px solid #8b3e3e;
+            background: transparent;
+            color: #ff7777;
+            padding: 13px 24px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .cancel-button:hover {
+            background: #8b3e3e;
+            color: #ffffff;
+        }
+
+
+        /* ===============================
+           NOT CANCELLABLE
+        =============================== */
+
+        .cancel-disabled {
+            margin-top: 25px;
+            padding: 16px;
+            background: #101010;
+            border: 1px solid #292929;
+            color: #777777;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+
+        /* ===============================
+           HOME BUTTON
+        =============================== */
+
+        .buttons {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .home-button {
+            display: inline-block;
+            padding: 14px 25px;
+            background: #b9913b;
+            color: #000000;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .home-button:hover {
+            background: #d2aa4f;
+        }
+
+        .help-text {
+            text-align: center;
+            color: #777777;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 25px;
+        }
+
+
+        /* ===============================
+           MOBILE
+        =============================== */
+
+        @media (max-width: 600px) {
+
+            .page-heading h1 {
+                font-size: 29px;
+            }
+
+            .search-card,
+            .appointment-card {
+                padding: 25px 18px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 7px;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
+
+            .cancel-button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main class="status-page">
+
+
+        <div class="status-container">
+
+
+            <!-- =========================================
+                 PAGE HEADING
+            ========================================== -->
+
+            <div class="page-heading">
+
+                <div class="small-heading">
+                    Booking Status
+                </div>
+
+                <h1>
+                    Check My Appointment
+                </h1>
+
+                <p>
+                    Enter your booking reference to check
+                    your appointment details and current status.
+                </p>
+
+            </div>
+
+
+            <!-- =========================================
+                 DJANGO MESSAGES
+            ========================================== -->
+
+            {% if messages %}
+
+                <div class="messages">
+
+                    {% for message in messages %}
+
+                        <div
+                            class="message {{ message.tags }}"
+                        >
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================================
+                 SEARCH FORM
+            ========================================== -->
+
+            <div class="search-card">
+
+                <form
+                    method="POST"
+                    action="{% url 'check_booking' %}"
+                >
+
+                    {% csrf_token %}
+
+
+                    <label for="booking_reference">
+                        Booking Reference
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="booking_reference"
+                        name="booking_reference"
+                        class="reference-input"
+                        placeholder="Enter your booking reference"
+                        value="{{ booking_reference }}"
+                        autocomplete="off"
+                        required
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="check-button"
+                    >
+                        Check Appointment Status
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+            <!-- =========================================
+                 SEARCH ERROR
+            ========================================== -->
+
+            {% if error_message %}
+
+                <div class="error-box">
+
+                    {{ error_message }}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =========================================
+                 APPOINTMENT FOUND
+            ========================================== -->
+
+            {% if appointment %}
+
+
+                <div class="appointment-card">
+
+
+                    <!-- HEADING -->
+
+                    <div class="found-heading">
+
+                        <h2>
+                            Appointment Found
+                        </h2>
+
+                        <p>
+                            Hello {{ appointment.name }}
+                        </p>
+
+
+                        <!-- STATUS -->
+
+                        {% if appointment.status == 'Pending' %}
+
+                            <div
+                                class="status-badge status-pending"
+                            >
+                                Pending
+                            </div>
+
+
+                        {% elif appointment.status == 'Confirmed' %}
+
+                            <div
+                                class="status-badge status-confirmed"
+                            >
+                                Confirmed
+                            </div>
+
+
+                        {% elif appointment.status == 'Completed' %}
+
+                            <div
+                                class="status-badge status-completed"
+                            >
+                                Completed
+                            </div>
+
+
+                        {% elif appointment.status == 'Cancelled' %}
+
+                            <div
+                                class="status-badge status-cancelled"
+                            >
+                                Cancelled
+                            </div>
+
+
+                        {% else %}
+
+                            <div class="status-badge">
+                                {{ appointment.status }}
+                            </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                    <!-- =================================
+                         BOOKING REFERENCE
+                    ================================== -->
+
+                    <div class="booking-reference">
+
+                        <span>
+                            Booking Reference
+                        </span>
+
+                        <strong>
+                            {{ appointment.booking_reference }}
+                        </strong>
+
+                    </div>
+
+
+                    <!-- =================================
+                         DETAILS
+                    ================================== -->
+
+                    <div class="details">
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-name">
+                                Service
+                            </span>
+
+                            <span class="detail-value">
+                                {{ appointment.service.name }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-name">
+                                Barber / Stylist
+                            </span>
+
+                            <span class="detail-value">
+
+                                {% if appointment.staff %}
+
+                                    {{ appointment.staff.name }}
+
+                                {% else %}
+
+                                    Not Assigned
+
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-name">
+                                Appointment Date
+                            </span>
+
+                            <span class="detail-value">
+
+                                {{ appointment.appointment_date|date:"d M Y" }}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-name">
+                                Appointment Time
+                            </span>
+
+                            <span class="detail-value">
+
+                                {{ appointment.appointment_time|time:"h:i A" }}
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-name">
+                                Status
+                            </span>
+
+                            <span class="detail-value">
+
+                                {{ appointment.status }}
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- =================================
+                         CANCEL APPOINTMENT
+                    ================================== -->
+
+                    {% if can_cancel %}
+
+
+                        <div class="cancel-section">
+
+                            <h3>
+                                Need to cancel?
+                            </h3>
+
+                            <p>
+                                Cancelling your appointment
+                                will release this time slot so
+                                another customer can book it.
+                            </p>
+
+
+                            <form
+                                method="POST"
+                                action="{% url 'cancel_booking' appointment.booking_reference %}"
+                                onsubmit="return confirm('Are you sure you want to cancel this appointment?');"
+                            >
+
+                                {% csrf_token %}
+
+
+                                <button
+                                    type="submit"
+                                    class="cancel-button"
+                                >
+                                    Cancel Appointment
+                                </button>
+
+
+                            </form>
+
+
+                        </div>
+
+
+                    {% else %}
+
+
+                        {% if appointment.status == 'Cancelled' %}
+
+                            <div class="cancel-disabled">
+
+                                This appointment has already
+                                been cancelled.
+
+                            </div>
+
+
+                        {% elif appointment.status == 'Completed' %}
+
+                            <div class="cancel-disabled">
+
+                                This appointment has already
+                                been completed and can no longer
+                                be cancelled.
+
+                            </div>
+
+
+                        {% else %}
+
+                            <div class="cancel-disabled">
+
+                                This appointment can no longer
+                                be cancelled online.
+
+                            </div>
+
+                        {% endif %}
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            {% endif %}
+
+
+            <!-- =========================================
+                 HOME BUTTON
+            ========================================== -->
+
+            <div class="buttons">
+
+                <a
+                    href="{% url 'home' %}"
+                    class="home-button"
+                >
+                    Back to Home
+                </a>
+
+            </div>
+
+
+            <p class="help-text">
+
+                Keep your booking reference private.
+                It is used to access your appointment details.
+
+            </p>
+
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

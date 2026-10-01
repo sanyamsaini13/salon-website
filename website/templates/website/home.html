@@ -1,0 +1,3206 @@
+{% load static %}
+
+
+
+<!DOCTYPE html>
+
+
+
+<html lang="en">
+
+
+
+<head>
+
+
+
+    <meta charset="UTF-8">
+
+
+
+    <meta
+
+
+
+        name="viewport"
+
+
+
+        content="width=device-width, initial-scale=1.0"
+
+
+
+    >
+
+
+
+    <meta
+
+
+
+        name="description"
+
+
+
+        content="Premium salon grooming, professional haircuts, beard styling, hair color and facial care."
+
+
+
+    >
+
+
+
+    <title>
+
+
+
+        {% if salon_info %}
+
+
+
+            {{ salon_info.salon_name }}
+
+
+
+        {% else %}
+
+
+
+            Elite Salon
+
+
+
+        {% endif %}
+
+
+
+        | Premium Grooming
+
+
+
+    </title>
+
+
+
+    <link
+
+
+
+        rel="stylesheet"
+
+
+
+        href="{% static 'website/css/style.css' %}"
+
+
+
+    >
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+<!-- ==================================================
+
+
+
+     NAVBAR
+
+
+
+\================================================== -->
+
+
+
+<nav class="navbar">
+
+
+
+    <a href="#home" class="logo">
+
+
+
+        ELITE <span>SALON</span>
+
+
+
+    </a>
+
+
+
+    <div
+
+
+
+        class="nav-links"
+
+
+
+        id="navLinks"
+
+
+
+    >
+
+
+
+        <a href="#home">Home</a>
+
+
+
+        <a href="#about">About</a>
+
+
+
+        <a href="#services">Services</a>
+
+
+
+        <a href="#team">Our Team</a>
+
+
+
+        <a href="#gallery">Gallery</a>
+
+
+
+        <a href="#contact">Contact</a>
+
+
+
+        <a href="{% url 'check_booking' %}">Check Appointment</a>
+
+
+
+        <a
+
+
+
+            href="#booking"
+
+
+
+            class="mobile-book-btn"
+
+
+
+        >
+
+
+
+            Book Appointment
+
+
+
+        </a>
+
+
+
+    </div>
+
+
+
+    <a
+
+
+
+        href="#booking"
+
+
+
+        class="nav-button"
+
+
+
+    >
+
+
+
+        Book Appointment
+
+
+
+    </a>
+
+
+
+    <button
+
+
+
+        class="menu-toggle"
+
+
+
+        id="menuToggle"
+
+
+
+        type="button"
+
+
+
+        aria-label="Open navigation menu"
+
+
+
+        aria-expanded="false"
+
+
+
+        aria-controls="navLinks"
+
+
+
+    >
+
+
+
+        <span></span>
+
+
+
+        <span></span>
+
+
+
+        <span></span>
+
+
+
+    </button>
+
+
+
+</nav>
+
+
+
+<!-- ==================================================
+
+
+
+     HERO
+
+
+
+\================================================== -->
+
+
+
+<section
+
+
+
+    class="hero"
+
+
+
+    id="home"
+
+
+
+>
+
+
+
+    <div class="hero-content">
+
+
+
+        <p class="hero-small">
+
+
+
+            PREMIUM GROOMING EXPERIENCE
+
+
+
+        </p>
+
+
+
+        <h1>
+
+
+
+            Style That
+
+
+
+            <br>
+
+
+
+            <span>
+
+
+
+                Defines You.
+
+
+
+            </span>
+
+
+
+        </h1>
+
+
+
+        <p class="hero-description">
+
+
+
+            Experience professional grooming,
+
+
+
+            precision haircuts and premium styling
+
+
+
+            designed around you.
+
+
+
+        </p>
+
+
+
+        <div class="hero-buttons">
+
+
+
+            <a
+
+
+
+                href="#booking"
+
+
+
+                class="primary-btn"
+
+
+
+            >
+
+
+
+                Book Appointment
+
+
+
+            </a>
+
+
+
+            <a
+
+
+
+                href="#services"
+
+
+
+                class="secondary-btn"
+
+
+
+            >
+
+
+
+                Explore Services
+
+
+
+            </a>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+<!-- ==================================================
+
+
+
+     SERVICES
+
+
+
+\================================================== -->
+
+
+
+<section
+
+
+
+    class="services"
+
+
+
+    id="services"
+
+
+
+>
+
+
+
+    <div class="section-heading">
+
+
+
+        <p>
+
+
+
+            WHAT WE OFFER
+
+
+
+        </p>
+
+
+
+        <h2>
+
+
+
+            Our Premium Services
+
+
+
+        </h2>
+
+
+
+        <span></span>
+
+
+
+    </div>
+
+
+
+    <div class="service-container">
+
+
+
+        {% for service in services %}
+
+
+
+            <div class="service-card">
+
+
+
+                <div class="service-icon">
+
+
+
+                    ✂
+
+
+
+                </div>
+
+
+
+                <h3>
+
+
+
+                    {{ service.name }}
+
+
+
+                </h3>
+
+
+
+                <p>
+
+
+
+                    {{ service.description }}
+
+
+
+                </p>
+
+
+
+                <h4>
+
+
+
+                    ₹{{ service.price }}
+
+
+
+                </h4>
+
+
+
+            </div>
+
+
+
+        {% empty %}
+
+
+
+            <div class="service-card">
+
+
+
+                <h3>
+
+
+
+                    No Services Available
+
+
+
+                </h3>
+
+
+
+                <p>
+
+
+
+                    Services will be available soon.
+
+
+
+                </p>
+
+
+
+            </div>
+
+
+
+        {% endfor %}
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+<!-- ==================================================
+
+
+
+     ABOUT
+
+
+
+\================================================== -->
+
+
+
+<section
+
+
+
+    class="about"
+
+
+
+    id="about"
+
+
+
+>
+
+
+
+    <div class="about-image">
+
+
+
+        <img
+
+
+
+            src="{% static 'website/images/salon-about.jpg' %}"
+
+
+
+            alt="Salon Interior"
+
+
+
+            class="about-real-image"
+
+
+
+            loading="lazy"
+
+
+
+        >
+
+
+
+    </div>
+
+
+
+    <div class="about-content">
+
+
+
+        <p class="section-label">
+
+
+
+            ABOUT US
+
+
+
+        </p>
+
+
+
+        <h2>
+
+
+
+            More Than A Haircut.
+
+
+
+            <br>
+
+
+
+            It's An
+
+
+
+            <span>
+
+
+
+                Experience.
+
+
+
+            </span>
+
+
+
+        </h2>
+
+
+
+        <p>
+
+
+
+            At
+
+
+
+            {% if salon_info %}
+
+
+
+                {{ salon_info.salon_name }},
+
+
+
+            {% else %}
+
+
+
+                Elite Salon,
+
+
+
+            {% endif %}
+
+
+
+            we believe grooming is more than just
+
+
+
+            looking good. It's about feeling confident.
+
+
+
+        </p>
+
+
+
+        <p>
+
+
+
+            Our professional stylists combine modern
+
+
+
+            techniques, premium products and personalised
+
+
+
+            service to give every client an exceptional
+
+
+
+            grooming experience.
+
+
+
+        </p>
+
+
+
+        <div class="about-features">
+
+
+
+            <div>
+
+
+
+                <strong>5+</strong>
+
+
+
+                <span>
+
+
+
+                    Years Experience
+
+
+
+                </span>
+
+
+
+            </div>
+
+
+
+            <div>
+
+
+
+                <strong>1000+</strong>
+
+
+
+                <span>
+
+
+
+                    Happy Clients
+
+
+
+                </span>
+
+
+
+            </div>
+
+
+
+            <div>
+
+
+
+                <strong>10+</strong>
+
+
+
+                <span>
+
+
+
+                    Expert Services
+
+
+
+                </span>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+<!-- ==================================================
+
+     OUR BARBERS / STYLISTS
+
+\================================================== -->
+
+
+
+<section class="team-section" id="team">
+
+    <div class="section-heading">
+
+        <p>MEET THE PROFESSIONALS</p>
+
+        <h2>Our Barbers & Stylists</h2>
+
+        <span></span>
+
+    </div>
+
+
+
+    <div class="team-container">
+
+        {% for staff in staff_members %}
+
+            <div class="team-card">
+
+                <div class="team-image">
+
+                    {% if staff.photo %}
+
+                        <img src="{{ staff.photo.url }}" alt="{{ staff.name }}" loading="lazy">
+
+                    {% else %}
+
+                        <div class="team-photo-placeholder"><span>✂</span></div>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="team-content">
+
+                    <h3>{{ staff.name }}</h3>
+
+                    <p class="team-specialization">{{ staff.specialization }}</p>
+
+                    <p class="team-experience">{{ staff.experience_years }} {% if staff.experience_years == 1 %}Year Experience{% else %}Years Experience{% endif %}</p>
+
+                    <a href="#booking" class="team-book-btn">Book With {{ staff.name }}</a>
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div class="team-empty"><h3>Our team will be listed soon.</h3><p>Please check back later.</p></div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+
+<style>
+
+.team-section { padding: 90px 8%; background: #080808; }
+
+.team-container { width: 100%; max-width: 1200px; margin: 45px auto 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px; }
+
+.team-card { background: #0f0f0f; border: 1px solid #292315; overflow: hidden; transition: transform .3s ease, border-color .3s ease; }
+
+.team-card:hover { transform: translateY(-6px); border-color: #b9913b; }
+
+.team-image { width: 100%; aspect-ratio: 4 / 5; background: #151515; overflow: hidden; }
+
+.team-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.team-photo-placeholder { width: 100%; height: 100%; min-height: 300px; display: flex; align-items: center; justify-content: center; background: linear-gradient(145deg, #151515, #090909); }
+
+.team-photo-placeholder span { font-size: 58px; color: #b9913b; }
+
+.team-content { padding: 24px; text-align: center; }
+
+.team-content h3 { margin: 0 0 8px; color: #fff; font-size: 22px; }
+
+.team-specialization { margin: 0 0 10px; color: #b9913b; font-weight: 600; }
+
+.team-experience { margin: 0 0 20px; color: #999; font-size: 14px; }
+
+.team-book-btn { display: inline-block; padding: 12px 18px; border: 1px solid #b9913b; color: #d6ad52; text-decoration: none; font-weight: 700; transition: .3s ease; }
+
+.team-book-btn:hover { background: #b9913b; color: #000; }
+
+.team-empty { grid-column: 1 / -1; text-align: center; padding: 35px; border: 1px solid #292315; color: #999; }
+
+.team-empty h3 { color: #fff; margin-top: 0; }
+
+@media (max-width: 800px) { .team-section { padding: 70px 20px; } .team-container { grid-template-columns: 1fr; max-width: 420px; } }
+
+</style>
+
+
+
+<!-- ==================================================
+
+
+
+     BOOKING
+
+
+
+\================================================== -->
+
+
+
+<section
+
+
+
+    class="booking"
+
+
+
+    id="booking"
+
+
+
+>
+
+
+
+    <div class="section-heading">
+
+
+
+        <p>
+
+
+
+            BOOK YOUR VISIT
+
+
+
+        </p>
+
+
+
+        <h2>
+
+
+
+            Make An Appointment
+
+
+
+        </h2>
+
+
+
+        <span></span>
+
+
+
+    </div>
+
+
+
+    <div class="booking-container">
+
+
+
+        <!-- BOOKING INFORMATION -->
+
+
+
+        <div class="booking-info">
+
+
+
+            <p class="section-label">
+
+
+
+                RESERVE YOUR TIME
+
+
+
+            </p>
+
+
+
+            <h2>
+
+
+
+                Ready For A
+
+
+
+                <span>
+
+
+
+                    Fresh Look?
+
+
+
+                </span>
+
+
+
+            </h2>
+
+
+
+            <p>
+
+
+
+                Book your appointment today and let
+
+
+
+                our professional stylists take care
+
+
+
+                of your look.
+
+
+
+            </p>
+
+
+
+            <div class="contact-detail">
+
+
+
+                <strong>
+
+
+
+                    Call Us
+
+
+
+                </strong>
+
+
+
+                <p>
+
+
+
+                    {% if salon_info %}
+
+
+
+                        {{ salon_info.phone }}
+
+
+
+                    {% else %}
+
+
+
+                        +91 63957 96986
+
+
+
+                    {% endif %}
+
+
+
+                </p>
+
+
+
+            </div>
+
+
+
+            <div class="contact-detail">
+
+
+
+                <strong>
+
+
+
+                    Opening Hours
+
+
+
+                </strong>
+
+
+
+                <p>
+
+
+
+                    {% if salon_info %}
+
+
+
+                        {{ salon_info.opening_days }}
+
+
+
+                    {% else %}
+
+
+
+                        Monday - Sunday
+
+
+
+                    {% endif %}
+
+
+
+                </p>
+
+
+
+                <p>
+
+
+
+                    {% if salon_info %}
+
+
+
+                        {{ salon_info.opening_time|time:"g:i A" }}
+
+
+
+                        -
+
+
+
+                        {{ salon_info.closing_time|time:"g:i A" }}
+
+
+
+                    {% else %}
+
+
+
+                        10:00 AM - 9:00 PM
+
+
+
+                    {% endif %}
+
+
+
+                </p>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+
+
+
+             APPOINTMENT FORM
+
+
+
+        ================================================== -->
+
+
+
+        <div class="booking-form">
+
+
+
+            <!-- SUCCESS MESSAGE -->
+
+
+
+            {% if messages %}
+
+
+
+                {% for message in messages %}
+
+
+
+                    <div class="success-message">
+
+
+
+                        {{ message }}
+
+
+
+                    </div>
+
+
+
+                {% endfor %}
+
+
+
+            {% endif %}
+
+
+
+            <!-- FORM ERRORS -->
+
+
+
+            {% if form.errors %}
+
+
+
+                <div class="form-error-message">
+
+
+
+                    <strong>
+
+
+
+                        Please correct the following:
+
+
+
+                    </strong>
+
+
+
+                    {% for field in form %}
+
+
+
+                        {% for error in field.errors %}
+
+
+
+                            <p>
+
+
+
+                                {{ field.label }}:
+
+
+
+                                {{ error }}
+
+
+
+                            </p>
+
+
+
+                        {% endfor %}
+
+
+
+                    {% endfor %}
+
+
+
+                    {% for error in form.non_field_errors %}
+
+
+
+                        <p>
+
+
+
+                            {{ error }}
+
+
+
+                        </p>
+
+
+
+                    {% endfor %}
+
+
+
+                </div>
+
+
+
+            {% endif %}
+
+
+
+            <form
+
+
+
+                method="POST"
+
+
+
+                action="#booking"
+
+
+
+                id="appointmentForm"
+
+
+
+            >
+
+
+
+                {% csrf_token %}
+
+
+
+                <!-- NAME -->
+
+
+
+                <div class="form-group">
+
+
+
+                    <label for="{{ form.name.id_for_label }}">
+
+
+
+                        Your Name
+
+
+
+                    </label>
+
+
+
+                    {{ form.name }}
+
+
+
+                </div>
+
+
+
+                <!-- PHONE -->
+
+
+
+                <div class="form-group">
+
+
+
+                    <label for="{{ form.phone.id_for_label }}">
+
+
+
+                        Phone Number
+
+
+
+                    </label>
+
+
+
+                    {{ form.phone }}
+
+
+
+                </div>
+
+
+
+                <!-- SERVICE -->
+
+
+
+                <div class="form-group">
+
+
+
+                    <label for="{{ form.service.id_for_label }}">
+
+
+
+                        Select Service
+
+
+
+                    </label>
+
+
+
+                    {{ form.service }}
+
+
+
+                </div>
+
+
+
+                <!-- BARBER -->
+
+
+
+                <div class="form-group">
+
+
+
+                    <label for="{{ form.staff.id_for_label }}">
+
+
+
+                        Select Barber / Stylist
+
+
+
+                    </label>
+
+
+
+                    {{ form.staff }}
+
+
+
+                </div>
+
+
+
+                <!-- DATE -->
+
+
+
+                <div class="form-group">
+
+
+
+                    <label for="{{ form.appointment_date.id_for_label }}">
+
+
+
+                        Appointment Date
+
+
+
+                    </label>
+
+
+
+                    <!-- APPOINTMENT DATE -->
+
+<div class="date-input-wrapper">
+
+    {{ form.appointment_date }}
+
+    <button
+        type="button"
+        class="custom-calendar-button"
+        id="calendarButton"
+        aria-label="Open calendar"
+    >
+        <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+        >
+            <rect
+                x="3"
+                y="5"
+                width="18"
+                height="16"
+                rx="2"
+            ></rect>
+
+            <line
+                x1="16"
+                y1="3"
+                x2="16"
+                y2="7"
+            ></line>
+
+            <line
+                x1="8"
+                y1="3"
+                x2="8"
+                y2="7"
+            ></line>
+
+            <line
+                x1="3"
+                y1="10"
+                x2="21"
+                y2="10"
+            ></line>
+        </svg>
+    </button>
+
+</div>
+
+
+
+                </div>
+
+
+
+                <!-- AVAILABLE TIME -->
+
+
+
+                <div class="form-group">
+
+
+
+                    <label for="{{ form.appointment_time.id_for_label }}">
+
+
+
+                        Available Time
+
+
+
+                    </label>
+
+
+
+                    {{ form.appointment_time }}
+
+
+
+                    <small
+
+
+
+                        id="slotMessage"
+
+
+
+                        style="
+
+
+
+                            display:block;
+
+
+
+                            margin-top:8px;
+
+
+
+                            opacity:0.8;
+
+
+
+                        "
+
+
+
+                    >
+
+
+
+                        Select a service, barber and date to see available times.
+
+
+
+                    </small>
+
+
+
+                </div>
+
+
+
+                <!-- MESSAGE -->
+
+
+
+                <div class="form-group">
+
+
+
+                    <label for="{{ form.message.id_for_label }}">
+
+
+
+                        Message
+
+
+
+                    </label>
+
+
+
+                    {{ form.message }}
+
+
+
+                </div>
+
+
+
+                <button
+
+
+
+                    type="submit"
+
+
+
+                    class="booking-button"
+
+
+
+                >
+
+
+
+                    Book Appointment
+
+
+
+                </button>
+
+
+
+            </form>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+<!-- ==================================================
+
+
+
+     GALLERY
+
+
+
+\================================================== -->
+
+
+
+<section
+
+
+
+    class="gallery"
+
+
+
+    id="gallery"
+
+
+
+>
+
+
+
+    <div class="section-heading">
+
+
+
+        <p>
+
+
+
+            OUR WORK
+
+
+
+        </p>
+
+
+
+        <h2>
+
+
+
+            Salon Gallery
+
+
+
+        </h2>
+
+
+
+        <span></span>
+
+
+
+    </div>
+
+
+
+    <div class="gallery-container">
+
+
+
+        {% for item in gallery_images %}
+
+
+
+            <div class="gallery-item">
+
+
+
+                <img
+
+
+
+                    src="{{ item.image.url }}"
+
+
+
+                    alt="{{ item.title }}"
+
+
+
+                    loading="lazy"
+
+
+
+                >
+
+
+
+                <div class="gallery-overlay">
+
+
+
+                    {{ item.title }}
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        {% empty %}
+
+
+
+            <div class="gallery-empty">
+
+
+
+                <p>
+
+
+
+                    Gallery photos will be available soon.
+
+
+
+                </p>
+
+
+
+            </div>
+
+
+
+        {% endfor %}
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+<!-- ==================================================
+
+
+
+     CONTACT
+
+
+
+\================================================== -->
+
+
+
+<section
+
+
+
+    class="contact"
+
+
+
+    id="contact"
+
+
+
+>
+
+
+
+    <div class="section-heading">
+
+
+
+        <p>
+
+
+
+            GET IN TOUCH
+
+
+
+        </p>
+
+
+
+        <h2>
+
+
+
+            Contact Us
+
+
+
+        </h2>
+
+
+
+        <span></span>
+
+
+
+    </div>
+
+
+
+    <div class="contact-container">
+
+
+
+        <div class="contact-card">
+
+
+
+            <div class="contact-icon">
+
+
+
+                📍
+
+
+
+            </div>
+
+
+
+            <h3>
+
+
+
+                Our Location
+
+
+
+            </h3>
+
+
+
+            <p>
+
+
+
+                {% if salon_info %}
+
+
+
+                    {{ salon_info.salon_name }}
+
+
+
+                    <br>
+
+
+
+                    {{ salon_info.address|linebreaksbr }}
+
+
+
+                {% else %}
+
+
+
+                    Elite Salon
+
+
+
+                    <br>
+
+
+
+                    Your City, India
+
+
+
+                {% endif %}
+
+
+
+            </p>
+
+
+
+        </div>
+
+
+
+        <div class="contact-card">
+
+
+
+            <div class="contact-icon">
+
+
+
+                ☎
+
+
+
+            </div>
+
+
+
+            <h3>
+
+
+
+                Call Us
+
+
+
+            </h3>
+
+
+
+            <p>
+
+
+
+                {% if salon_info %}
+
+
+
+                    {{ salon_info.phone }}
+
+
+
+                {% else %}
+
+
+
+                    +91 63957 96986
+
+
+
+                {% endif %}
+
+
+
+            </p>
+
+
+
+        </div>
+
+
+
+        <div class="contact-card">
+
+
+
+            <div class="contact-icon">
+
+
+
+                ◷
+
+
+
+            </div>
+
+
+
+            <h3>
+
+
+
+                Opening Hours
+
+
+
+            </h3>
+
+
+
+            <p>
+
+
+
+                {% if salon_info %}
+
+
+
+                    {{ salon_info.opening_days }}
+
+
+
+                    <br>
+
+
+
+                    {{ salon_info.opening_time|time:"g:i A" }}
+
+
+
+                    -
+
+
+
+                    {{ salon_info.closing_time|time:"g:i A" }}
+
+
+
+                {% else %}
+
+
+
+                    Monday - Sunday
+
+
+
+                    <br>
+
+
+
+                    10:00 AM - 9:00 PM
+
+
+
+                {% endif %}
+
+
+
+            </p>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+<!-- ==================================================
+
+
+
+     FOOTER
+
+
+
+\================================================== -->
+
+
+
+<footer class="footer">
+
+
+
+    <div class="footer-logo">
+
+
+
+        {% if salon_info %}
+
+
+
+            {{ salon_info.salon_name }}
+
+
+
+        {% else %}
+
+
+
+            ELITE <span>SALON</span>
+
+
+
+        {% endif %}
+
+
+
+    </div>
+
+
+
+    <p>
+
+
+
+        Premium grooming. Professional styling.
+
+
+
+        Exceptional experience.
+
+
+
+    </p>
+
+
+
+    <div class="footer-links">
+
+
+
+        <a href="#home">Home</a>
+
+
+
+        <a href="#about">About</a>
+
+
+
+        <a href="#services">Services</a>
+
+
+
+        <a href="#team">Our Team</a>
+
+
+
+        <a href="#gallery">Gallery</a>
+
+
+
+        <a href="#contact">Contact</a>
+
+
+
+        <a href="#booking">Book Appointment</a>
+
+
+
+        <a href="{% url 'check_booking' %}">Check Appointment</a>
+
+
+
+    </div>
+
+
+
+    <div class="footer-bottom">
+
+
+
+        © {% now "Y" %}
+
+
+
+        {% if salon_info %}
+
+
+
+            {{ salon_info.salon_name }}.
+
+
+
+        {% else %}
+
+
+
+            Elite Salon.
+
+
+
+        {% endif %}
+
+
+
+        All Rights Reserved.
+
+
+
+    </div>
+
+
+
+</footer>
+
+
+
+<!-- ==================================================
+
+
+
+     WHATSAPP
+
+
+
+\================================================== -->
+
+
+
+{% if salon_info %}
+
+
+
+    <a
+
+
+
+        href="https://wa.me/{{ salon_info.whatsapp_number }}?text=Hello%20{{ salon_info.salon_name|urlencode }}%2C%20I%20want%20to%20book%20an%20appointment."
+
+
+
+        class="whatsapp-button"
+
+
+
+        target="_blank"
+
+
+
+        rel="noopener noreferrer"
+
+
+
+        aria-label="Chat with salon on WhatsApp"
+
+
+
+    >
+
+
+
+        ☎
+
+
+
+    </a>
+
+
+
+{% else %}
+
+
+
+    <a
+
+
+
+        href="https://wa.me/916395796986?text=Hello%20Elite%20Salon%2C%20I%20want%20to%20book%20an%20appointment."
+
+
+
+        class="whatsapp-button"
+
+
+
+        target="_blank"
+
+
+
+        rel="noopener noreferrer"
+
+
+
+        aria-label="Chat with Elite Salon on WhatsApp"
+
+
+
+    >
+
+
+
+        ☎
+
+
+
+    </a>
+
+
+
+{% endif %}
+
+
+
+<!-- ==================================================
+
+
+
+     JAVASCRIPT
+
+
+
+\================================================== -->
+
+
+
+<script>
+
+
+
+document.addEventListener(
+
+
+
+    "DOMContentLoaded",
+
+
+
+    function () {
+
+
+
+        /*
+
+
+
+        ==========================================
+
+
+
+        MOBILE NAVIGATION
+
+
+
+        ==========================================
+
+
+
+        */
+
+
+
+        const menuToggle =
+
+
+
+            document.getElementById("menuToggle");
+
+
+
+        const navLinks =
+
+
+
+            document.getElementById("navLinks");
+
+
+
+        if (menuToggle && navLinks) {
+
+
+
+            menuToggle.addEventListener(
+
+
+
+                "click",
+
+
+
+                function () {
+
+
+
+                    navLinks.classList.toggle(
+
+
+
+                        "active"
+
+
+
+                    );
+
+
+
+                    menuToggle.classList.toggle(
+
+
+
+                        "active"
+
+
+
+                    );
+
+
+
+                    const isOpen =
+
+
+
+                        navLinks.classList.contains(
+
+
+
+                            "active"
+
+
+
+                        );
+
+
+
+                    menuToggle.setAttribute(
+
+
+
+                        "aria-expanded",
+
+
+
+                        isOpen ? "true" : "false"
+
+
+
+                    );
+
+
+
+                }
+
+
+
+            );
+
+
+
+            const navigationLinks =
+
+
+
+                navLinks.querySelectorAll("a");
+
+
+
+            navigationLinks.forEach(
+
+
+
+                function (link) {
+
+
+
+                    link.addEventListener(
+
+
+
+                        "click",
+
+
+
+                        function () {
+
+
+
+                            navLinks.classList.remove(
+
+
+
+                                "active"
+
+
+
+                            );
+
+
+
+                            menuToggle.classList.remove(
+
+
+
+                                "active"
+
+
+
+                            );
+
+
+
+                            menuToggle.setAttribute(
+
+
+
+                                "aria-expanded",
+
+
+
+                                "false"
+
+
+
+                            );
+
+
+
+                        }
+
+
+
+                    );
+
+
+
+                }
+
+
+
+            );
+
+
+
+            window.addEventListener(
+
+
+
+                "resize",
+
+
+
+                function () {
+
+
+
+                    if (window.innerWidth > 800) {
+
+
+
+                        navLinks.classList.remove(
+
+
+
+                            "active"
+
+
+
+                        );
+
+
+
+                        menuToggle.classList.remove(
+
+
+
+                            "active"
+
+
+
+                        );
+
+
+
+                        menuToggle.setAttribute(
+
+
+
+                            "aria-expanded",
+
+
+
+                            "false"
+
+
+
+                        );
+
+
+
+                    }
+
+
+
+                }
+
+
+
+            );
+
+
+
+        }
+
+
+
+        /*
+
+
+
+        ==========================================
+
+
+
+        AVAILABLE APPOINTMENT SLOTS
+
+
+
+        ==========================================
+
+
+
+        */
+
+
+
+        const serviceSelect =
+
+            document.getElementById(
+
+                "id_service"
+
+            );
+
+
+
+        const staffSelect =
+
+            document.getElementById(
+
+                "id_staff"
+
+            );
+
+
+
+        const dateInput =
+
+            document.getElementById(
+
+                "id_appointment_date"
+
+            );
+
+
+
+        const timeSelect =
+
+            document.getElementById(
+
+                "id_appointment_time"
+
+            );
+
+
+
+        const slotMessage =
+
+            document.getElementById(
+
+                "slotMessage"
+
+            );
+
+
+
+        if (
+
+            serviceSelect &&
+
+            staffSelect &&
+
+            dateInput &&
+
+            timeSelect
+
+        ) {
+
+
+
+            async function loadAvailableSlots() {
+
+
+
+                const serviceId =
+
+                    serviceSelect.value;
+
+
+
+                const staffId =
+
+                    staffSelect.value;
+
+
+
+                const selectedDate =
+
+                    dateInput.value;
+
+
+
+                timeSelect.innerHTML = "";
+
+
+
+                const defaultOption =
+
+                    document.createElement(
+
+                        "option"
+
+                    );
+
+
+
+                defaultOption.value = "";
+
+
+
+                defaultOption.textContent =
+
+                    "Select available time";
+
+
+
+                timeSelect.appendChild(
+
+                    defaultOption
+
+                );
+
+
+
+                if (
+
+                    !serviceId ||
+
+                    !staffId ||
+
+                    !selectedDate
+
+                ) {
+
+
+
+                    timeSelect.disabled = true;
+
+
+
+                    if (slotMessage) {
+
+                        slotMessage.textContent =
+
+                            "Select a service, barber and date to see available times.";
+
+                    }
+
+
+
+                    return;
+
+                }
+
+
+
+                timeSelect.disabled = true;
+
+
+
+                if (slotMessage) {
+
+                    slotMessage.textContent =
+
+                        "Checking available times...";
+
+                }
+
+
+
+                try {
+
+
+
+                    const url =
+
+                        "{% url 'available_slots' %}"
+
+                        + "?service="
+
+                        + encodeURIComponent(serviceId)
+
+                        + "&staff="
+
+                        + encodeURIComponent(staffId)
+
+                        + "&date="
+
+                        + encodeURIComponent(selectedDate);
+
+
+
+                    const response =
+
+                        await fetch(
+
+                            url,
+
+                            {
+
+                                method: "GET",
+
+                                headers: {
+
+                                    "X-Requested-With":
+
+                                        "XMLHttpRequest"
+
+                                }
+
+                            }
+
+                        );
+
+
+
+                    const data =
+
+                        await response.json();
+
+
+
+                    if (!response.ok) {
+
+
+
+                        if (slotMessage) {
+
+                            slotMessage.textContent =
+
+                                data.message ||
+
+                                "Unable to load available times.";
+
+                        }
+
+
+
+                        return;
+
+                    }
+
+
+
+                    if (
+
+                        !data.slots ||
+
+                        data.slots.length === 0
+
+                    ) {
+
+
+
+                        if (slotMessage) {
+
+                            slotMessage.textContent =
+
+                                data.message ||
+
+                                "No available times for this date.";
+
+                        }
+
+
+
+                        return;
+
+                    }
+
+
+
+                    data.slots.forEach(
+
+                        function (slot) {
+
+
+
+                            const option =
+
+                                document.createElement(
+
+                                    "option"
+
+                                );
+
+
+
+                            option.value =
+
+                                slot.value;
+
+
+
+                            option.textContent =
+
+                                slot.label;
+
+
+
+                            timeSelect.appendChild(
+
+                                option
+
+                            );
+
+                        }
+
+                    );
+
+
+
+                    timeSelect.disabled = false;
+
+
+
+                    if (slotMessage) {
+
+                        slotMessage.textContent =
+
+                            data.slots.length
+
+                            + " available time slots found. "
+
+                            + "Service duration: "
+
+                            + data.service_duration
+
+                            + " minutes.";
+
+                    }
+
+
+
+                } catch (error) {
+
+
+
+                    console.error(
+
+                        "Slot loading error:",
+
+                        error
+
+                    );
+
+
+
+                    if (slotMessage) {
+
+                        slotMessage.textContent =
+
+                            "Unable to load available times. Please try again.";
+
+                    }
+
+                }
+
+            }
+
+
+
+            serviceSelect.addEventListener(
+
+                "change",
+
+                loadAvailableSlots
+
+            );
+
+
+
+            staffSelect.addEventListener(
+
+                "change",
+
+                loadAvailableSlots
+
+            );
+
+
+
+            dateInput.addEventListener(
+
+                "change",
+
+                loadAvailableSlots
+
+            );
+
+
+
+            if (
+
+                serviceSelect.value &&
+
+                staffSelect.value &&
+
+                dateInput.value
+
+            ) {
+
+                loadAvailableSlots();
+
+            } else {
+
+                timeSelect.disabled = true;
+
+            }
+
+        }
+
+
+
+    }
+
+
+
+);
+
+
+
+</script>
+
+
+
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const dateInput =
+                document.getElementById(
+                    "{{ form.appointment_date.id_for_label }}"
+                );
+
+            const calendarButton =
+                document.getElementById(
+                    "calendarButton"
+                );
+
+            if (
+                !dateInput ||
+                !calendarButton
+            ) {
+                return;
+            }
+
+
+            calendarButton.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        typeof dateInput.showPicker
+                        === "function"
+                    ) {
+
+                        dateInput.showPicker();
+
+                    } else {
+
+                        dateInput.focus();
+                        dateInput.click();
+
+                    }
+
+                }
+            );
+
+        }
+    );
+</script>
+
+
+
+</body>
+
+
+
+</html>

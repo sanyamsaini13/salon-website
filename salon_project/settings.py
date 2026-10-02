@@ -79,9 +79,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'cloudinary_storage',
+    'cloudinary',
+
     'website',
 ]
-
 
 # ==========================================
 # MIDDLEWARE
@@ -196,19 +198,28 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-
 STORAGES = {
-
-    'default': {
-        'BACKEND':
-        'django.core.files.storage.FileSystemStorage',
+    "default": {
+        "BACKEND": (
+            "cloudinary_storage.storage.MediaCloudinaryStorage"
+            if os.environ.get("CLOUDINARY_CLOUD_NAME")
+            else "django.core.files.storage.FileSystemStorage"
+        ),
     },
-
-    'staticfiles': {
-        'BACKEND':
-        'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
+}
 
+
+
+
+
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
 }
 
 
